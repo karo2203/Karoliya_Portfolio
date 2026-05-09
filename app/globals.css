@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cyan: #22d3ee;
+  --violet: #a78bfa;
+  --teal: #2dd4bf;
+  --blue-glow: #3b82f6;
+  --glass-bg: rgba(15, 23, 42, 0.45);
+  --glass-border: rgba(148, 163, 184, 0.12);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  @apply bg-abyss text-slate-100 antialiased overflow-x-hidden;
+}
+
+::selection {
+  background: rgba(34, 211, 238, 0.3);
+  color: #fff;
+}
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+}
+
+.gradient-text {
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(
+    135deg,
+    #22d3ee 0%,
+    #a78bfa 45%,
+    #2dd4bf 100%
+  );
+}
+
+.glow-border {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 0 0 1px rgba(34, 211, 238, 0.15),
+    0 24px 48px rgba(0, 0, 0, 0.45);
+}
+
+.glow-border:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 0 1px rgba(34, 211, 238, 0.35),
+    0 0 48px rgba(139, 92, 246, 0.2),
+    0 32px 64px rgba(0, 0, 0, 0.5);
+}
+
+/* Hero: subtle neon frame + scan hint (respects reduced-motion via Tailwind/media rules on animations) */
+.hero-neon-frame {
+  position: relative;
+}
+
+.hero-neon-frame::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 1.75rem;
+  padding: 1px;
+  background: linear-gradient(
+    125deg,
+    rgba(34, 211, 238, 0.45),
+    rgba(139, 92, 246, 0.35),
+    rgba(45, 212, 191, 0.35),
+    rgba(34, 211, 238, 0.25)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.65;
+  transition: opacity 0.45s ease;
+}
+
+.hero-neon-frame:hover::before {
+  opacity: 0.95;
+}
+
+.hero-scan-line {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(34, 211, 238, 0.22),
+    transparent
+  );
+  height: 1px;
+  animation: hero-scan 10s ease-in-out infinite;
+}
+
+@keyframes hero-scan {
+  0%,
+  100% {
+    transform: translateX(-12%);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateX(12%);
+    opacity: 0.85;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-scan-line {
+    animation: none;
+    opacity: 0.35;
+    transform: none;
+  }
+
+  .hero-neon-frame::before {
+    opacity: 0.5;
+  }
+}
